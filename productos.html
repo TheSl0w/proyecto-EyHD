@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Rossi Soluciones Informáticas</title>
+    <style>
+        /* --- Importación de Fuentes y Variables de Estilo del index.html --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #6a35ff;
+            --dark-blue: #0f0c29;
+            --light-gray: #f8f9fa;
+            --text-color: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        /* --- Estilos Generales y del index.html --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--light-gray);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* --- Encabezado --- */
+        .header {
+            background: var(--white);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after, .nav-menu a.active::after {
+            width: 100%;
+        }
+        
+        /* --- Language Dropdown --- */
+        .lang-dropdown {
+            position: relative;
+            cursor: pointer;
+        }
+        .lang-dropdown img {
+            width: 24px;
+            height: 24px;
+            /* Los SVGs ya tienen el recorte circular, así que border-radius no es estrictamente necesario,
+            pero es una buena práctica por si la imagen no carga o se reemplaza. */
+            border-radius: 50%; 
+        }
+        
+        .lang-dropdown .selected-lang {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        
+        .lang-dropdown .selected-lang .arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .lang-dropdown .lang-options {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            list-style: none;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 120px;
+        }
+        
+        .lang-dropdown:hover .lang-options {
+            display: block;
+        }
+        
+        .lang-dropdown:hover .selected-lang .arrow {
+            transform: rotate(180deg);
+        }
+
+        .lang-options li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: background-color 0.2s ease;
+        }
+        
+        .lang-options li a:hover {
+            background-color: var(--light-gray);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            padding: 20px 0;
+            background: var(--white);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .footer-content .logo {
+            font-size: 1.5rem;
+        }
+
+        /* --- Estilos de la página de Productos --- */
+        .products-section {
+            padding-top: 60px; /* Offset for fixed header */
+            background: var(--light-gray);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .product-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--dark-blue);
+        }
+        
+        .product-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .product-card .price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .product-card .stock {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .product-card .stock.in-stock {
+            color: green;
+        }
+
+        .product-card .stock.low-stock {
+            color: orange;
+        }
+        
+        .product-card .stock.out-of-stock {
+            color: red;
+        }
+
+        /* --- Responsividad --- */
+        @media (max-width: 768px) {
+            h2 { font-size: 1.8rem; }
+            
+            .nav-menu {
+                display: none; /* Ocultar menú en móvil, se necesitaría JS para un toggle */
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+ <header class="header">
+    <nav class="container navbar">
+        <a href="#" class="logo">ROSSI</a>
+        <ul class="nav-menu">
+            <li><a href="index.html#services">Servicios</a></li>
+            <li><a href="index.html#about-us">Nosotros</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="index.html#contact">Contacto</a></li>
+            <li class="lang-dropdown">
+                <div class="selected-lang">
+                    <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><defs><clipPath id="a"><circle cx="18" cy="18" r="18"></circle></clipPath></defs><g clip-path="url(%23a)"><path fill="%2375AADB" d="M0 0h36v36H0z"></path><path fill="%23F5F5F5" d="M0 12h36v12H0z"></path><path fill="%23FFD859" d="M18 12.162a5.838 5.838 0 100 11.676 5.838 5.838 0 000-11.676z"></path><path fill="%23F5F5F5" d="M18 14.73a3.27 3.27 0 100 6.54 3.27 3.27 0 000-6.54z"></path></g></svg>' alt="Bandera Argentina">
+                    <span>ES</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <ul class="lang-options">
+                    <li>
+                        <a href="#">
+                            <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><defs><clipPath id="a"><circle cx="18" cy="18" r="18"></circle></clipPath></defs><g clip-path="url(%23a)"><path fill="%2375AADB" d="M0 0h36v36H0z"></path><path fill="%23F5F5F5" d="M0 12h36v12H0z"></path><path fill="%23FFD859" d="M18 12.162a5.838 5.838 0 100 11.676 5.838 5.838 0 000-11.676z"></path><path fill="%23F5F5F5" d="M18 14.73a3.27 3.27 0 100 6.54 3.27 3.27 0 000-6.54z"></path></g></svg>' alt="Bandera Argentina">
+                            <span>Argentino</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="#">
+                            <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><defs><clipPath id="a"><circle cx="18" cy="18" r="18"></circle></clipPath></defs><g clip-path="url(%23a)"><path fill="%23E8112D" d="M0 0h36v36H0z"></path><path fill="%23F5F5F5" d="M0 5.143h36V10.29H0zm0 10.287h36v5.143H0zm0 10.286h36v5.143H0z"></path><path fill="%23002664" d="M0 0h18v18H0z"></path><path fill="%23F5F5F5" d="M3.857 2.571l.89 2.738-2.33-.002.887-2.736h.553zM9.857 2.571l.89 2.738-2.33-.002.887-2.736h.553zM15.857 2.571l.89 2.738-2.33-.002.887-2.736h.553zM6.857 6.428l.89 2.739-2.33-.003.887-2.736h.553zM12.857 6.428l.89 2.739-2.33-.003.887-2.736h.553zM3.857 10.286l.89 2.738-2.33-.002.887-2.736h.553zM9.857 10.286l.89 2.738-2.33-.002.887-2.736h.553zM15.857 10.286l.89 2.738-2.33-.002.887-2.736h.553z"></path></g></svg>' alt="Bandera EEUU">
+                            <span>Inglés</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+    <main>
+        <section class="products-section">
+            <div class="container">
+                <h2>Nuestros Productos</h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <img src="media/Monitor-27-144.jpg" alt="Monitor Curvo">
+                        <h3>Monitor Curvo 27" 144Hz</h3>
+                        <p class="description">Monitor de alta definición ideal para gaming y diseño gráfico, con panel curvo para una experiencia inmersiva.</p>
+                        <p class="price">$349.99</p>
+                        <p class="stock in-stock">Stock: 15 unidades</p>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="media/tecladoMecanico.jpg" alt="Teclado Mecánico">
+                        <h3>Teclado Mecánico RGB</h3>
+                        <p class="description">Teclado con switches Cherry MX y retroiluminación RGB configurable. Ideal para programadores y gamers.</p>
+                        <p class="price">$89.99</p>
+                        <p class="stock low-stock">Stock: 3 unidades</p>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="media/mouseErgonomico.jpg" alt="Mouse Inalámbrico">
+                        <h3>Mouse Inalámbrico Ergonómico</h3>
+                        <p class="description">Mouse de alta precisión con diseño ergonómico y batería de larga duración. Perfecto para uso diario.</p>
+                        <p class="price">$25.50</p>
+                        <p class="stock in-stock">Stock: 22 unidades</p>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="media/ssd-1tb.jpg" alt="Disco SSD">
+                        <h3>Disco SSD 1TB SATA III</h3>
+                        <p class="description">Aumenta la velocidad de tu computadora con este disco de estado sólido de 1TB. Lectura de 550MB/s.</p>
+                        <p class="price">$75.00</p>
+                        <p class="stock in-stock">Stock: 8 unidades</p>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="media/auriculares-HyperX.jpg" alt="Auriculares Gaming">
+                        <h3>Auriculares Gaming HyperX</h3>
+                        <p class="description">Auriculares con sonido envolvente 7.1 y micrófono con cancelación de ruido. Máxima comodidad.</p>
+                        <p class="price">$65.00</p>
+                        <p class="stock out-of-stock">Stock: Agotado</p>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="media/rtx4070.jpg" alt="Placa de Video">
+                        <h3>NVIDIA GeForce RTX 4070</h3>
+                        <p class="description">La tarjeta gráfica definitiva para creadores de contenido y gamers entusiastas. Rendimiento de otro nivel.</p>
+                        <p class="price">$799.00</p>
+                        <p class="stock low-stock">Stock: 1 unidad</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <a href="index.html" class="logo">ROSSI</a>
+            <p>&copy; 2025 Rossi Soluciones Informáticas. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rossi - Soluciones de TI integrales</title>
+    <style>
+        /* --- Reseteo Básico y Fuentes --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #6a35ff;
+            --dark-blue: #0f0c29;
+            --light-gray: #f8f9fa;
+            --text-color: #333;
+            --text-light: #666;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        section {
+            padding-top: 60px; /* Offset for fixed header */
+        }
+
+        /* --- Encabezado --- */
+        .header {
+            background: var(--white);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Language Dropdown --- */
+        .lang-dropdown {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .lang-dropdown .selected-lang {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        
+        .lang-dropdown .selected-lang .arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .lang-dropdown .lang-options {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            list-style: none;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 120px;
+        }
+        
+        .lang-dropdown:hover .lang-options {
+            display: block;
+        }
+        
+        .lang-dropdown:hover .selected-lang .arrow {
+            transform: rotate(180deg);
+        }
+
+        .lang-options li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: background-color 0.2s ease;
+        }
+        
+        .lang-options li a:hover {
+            background-color: var(--light-gray);
+        }
+        /* --- Estilo para las banderas en el dropdown --- */
+        .lang-dropdown img {
+            width: 24px;
+            height: 24px;
+            /* Los SVGs ya tienen el recorte circular, así que border-radius no es estrictamente necesario,
+            pero es una buena práctica por si la imagen no carga o se reemplaza. */
+            border-radius: 50%; 
+        }
+
+        /* --- Sección Hero --- */
+        .hero {
+            background-color: #0f0c29;
+            background-image: linear-gradient(to right top, #0c0a3e, #2a2061, #4c3286, #7342ac, #9c51d2);
+            color: var(--white);
+            text-align: center;
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="none" stroke="%23ffffff" stroke-opacity="0.1"><circle cx="50" cy="50" r="40"/><path d="M50 10 V90 M10 50 H90 M22 22 L78 78 M22 78 L78 22"/></g></svg>');
+            background-size: 200px 200px;
+            opacity: 0.2;
+            animation: movePlexus 20s linear infinite;
+        }
+
+        @keyframes movePlexus {
+            from { background-position: 0 0; }
+            to { background-position: 200px 200px; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            opacity: 0.9;
+        }
+
+        .hero-button {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        /* --- Contenedor para los botones del Hero --- */
+        .hero-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Espacio entre los botones */
+            flex-wrap: wrap; /* Permite que los botones se apilen en pantallas pequeñas */
+        }
+
+        .hero-button:hover {
+            background-color: #582cdb;
+            transform: translateY(-3px);
+        }
+
+        /* --- Sección de Servicios --- */
+        .services {
+            padding: 80px 0;
+            background: var(--white);
+        }
+        
+        .services-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 50px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px; /* Opcional: mejora la apariencia del borde */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+        }
+        .service-card:hover {
+            transform: translateY(-5px); /* Mueve la tarjeta 5px hacia arriba */
+            box-shadow: 0 0 0 2px var(--primary-color); /* Agrega un contorno fino del color de la marca */
+        }
+        .service-card .icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e8e1ff;
+            border-radius: 50%;
+            color: var(--primary-color);
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* --- Sección Sobre Nosotros --- */
+        .about-us {
+            padding: 80px 0;
+            background: var(--light-gray);
+        }
+
+        .about-us-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+        }
+
+        .about-us-text {
+            flex: 1;
+        }
+        
+        .about-us-text h2 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .about-us-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .about-us-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* --- Sección Clientes --- */
+        .clients {
+            padding: 40px 0;
+            background: var(--light-gray);
+        }
+        
+        .clients h3 {
+            text-align: center;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .clients-logos {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .clients-logos img {
+            max-height: 40px;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: filter 0.3s, opacity 0.3s;
+        }
+        
+        .clients-logos img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* --- Sección Contacto --- */
+        .contact {
+            padding: 80px 0;
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .contact h2 {
+            color: var(--white);
+            margin-bottom: 50px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .contact-item .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .contact-item a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .map-container {
+            text-align: center;
+        }
+        
+        .map-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 3px solid var(--white);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            padding: 20px 0;
+            background: var(--white);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .footer-content .logo {
+            font-size: 1.5rem;
+        }
+
+        /* --- Responsividad --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .nav-menu {
+                display: none; /* Ocultar menú en móvil, se necesitaría JS para un toggle */
+            }
+
+            .hero { padding: 80px 0; }
+            
+            .about-us-content {
+                flex-direction: column;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <nav class="container navbar">
+        <a href="#" class="logo">ROSSI</a>
+        <ul class="nav-menu">
+            <li><a href="#services">Servicios</a></li>
+            <li><a href="#about-us">Nosotros</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="#contact">Contacto</a></li>
+            <li class="lang-dropdown">
+                <div class="selected-lang">
+                    <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><defs><clipPath id="a"><circle cx="18" cy="18" r="18"></circle></clipPath></defs><g clip-path="url(%23a)"><path fill="%2375AADB" d="M0 0h36v36H0z"></path><path fill="%23F5F5F5" d="M0 12h36v12H0z"></path><path fill="%23FFD859" d="M18 12.162a5.838 5.838 0 100 11.676 5.838 5.838 0 000-11.676z"></path><path fill="%23F5F5F5" d="M18 14.73a3.27 3.27 0 100 6.54 3.27 3.27 0 000-6.54z"></path></g></svg>' alt="Bandera Argentina">
+                    <span>ES</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <ul class="lang-options">
+                    <li>
+                        <a href="#">
+                            <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><defs><clipPath id="a"><circle cx="18" cy="18" r="18"></circle></clipPath></defs><g clip-path="url(%23a)"><path fill="%2375AADB" d="M0 0h36v36H0z"></path><path fill="%23F5F5F5" d="M0 12h36v12H0z"></path><path fill="%23FFD859" d="M18 12.162a5.838 5.838 0 100 11.676 5.838 5.838 0 000-11.676z"></path><path fill="%23F5F5F5" d="M18 14.73a3.27 3.27 0 100 6.54 3.27 3.27 0 000-6.54z"></path></g></svg>' alt="Bandera Argentina">
+                            <span>Argentino</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a href="#">
+                            <img src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><defs><clipPath id="a"><circle cx="18" cy="18" r="18"></circle></clipPath></defs><g clip-path="url(%23a)"><path fill="%23E8112D" d="M0 0h36v36H0z"></path><path fill="%23F5F5F5" d="M0 5.143h36V10.29H0zm0 10.287h36v5.143H0zm0 10.286h36v5.143H0z"></path><path fill="%23002664" d="M0 0h18v18H0z"></path><path fill="%23F5F5F5" d="M3.857 2.571l.89 2.738-2.33-.002.887-2.736h.553zM9.857 2.571l.89 2.738-2.33-.002.887-2.736h.553zM15.857 2.571l.89 2.738-2.33-.002.887-2.736h.553zM6.857 6.428l.89 2.739-2.33-.003.887-2.736h.553zM12.857 6.428l.89 2.739-2.33-.003.887-2.736h.553zM3.857 10.286l.89 2.738-2.33-.002.887-2.736h.553zM9.857 10.286l.89 2.738-2.33-.002.887-2.736h.553zM15.857 10.286l.89 2.738-2.33-.002.887-2.736h.553z"></path></g></svg>' alt="Bandera EEUU">
+                            <span>Inglés</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+    <main>
+       <section class="hero">
+    <div class="container hero-content">
+        <h1>Soluciones de TI integrales para tu empresa</h1>
+        <p>Desde consultoría y soporte hasta soporte y optimización de servicios. Maximizamos el potencial de tu infraestructura tecnológica para que puedas enfocarte en lo que más importa: tu negocio.</p>
+        
+        <div class="hero-buttons-container">
+            <a href="#contact" class="hero-button">Hablemos de tu proyecto</a>
+            <a href="productos.html" class="hero-button">Ver Productos</a>
+        </div>
+
+    </div>
+</section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2>Nuestros Servicios</h2>
+                <p class="services-subtitle">Soluciones integrales para acompañarte en la era digital.</p>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase h-7 w-7 transition-transform duration-300 group-hover:scale-110"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg></div>
+                        <h3>Consultoría en TI</h3>
+                        <p>Brindamos asesoramiento experto para ayudarte a optimizar tus recursos tecnológicos.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check h-7 w-7 transition-transform duration-300 group-hover:scale-110"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></div>
+                        <h3>Diseño de infraestructura</h3>
+                        <p>Propuestas avanzadas para una arquitectura robusta, escalable y segura.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users h-7 w-7 transition-transform duration-300 group-hover:scale-110"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                        <h3>Externalización de soporte TI</h3>
+                        <p>Respuesta rápida y efectiva a problemas, desde la mesa de ayuda hasta la administración de servidores.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building h-7 w-7 transition-transform duration-300 group-hover:scale-110"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg></div>
+                        <h3>Planificación de Sistemas de Información</h3>
+                        <p>Diseño y ejecución de estrategias tecnológicas que se alinean perfectamente con tus objetivos de negocio.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-network h-7 w-7 transition-transform duration-300 group-hover:scale-110"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg></div>
+                        <h3>Pasaje a la nube</h3>
+                        <p>Servicios de migración y gestión en la nube. Ofrecemos soluciones en la nube de Amazon Web Services (AWS).</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-monitor h-7 w-7 transition-transform duration-300 group-hover:scale-110"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg></div>
+                        <h3>Servicios de TI para empresas</h3>
+                        <p>Acompañamiento en el día a día para que tu empresa pueda enfocarse en el negocio sin preocuparse por la tecnología.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-laptop h-7 w-7 transition-transform duration-300 group-hover:scale-110"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"></path></svg></div>
+                        <h3>Consolidación de centros de trabajo</h3>
+                        <p>Creación de entornos de trabajo seguros, con acceso a las aplicaciones corporativas.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server h-7 w-7 transition-transform duration-300 group-hover:scale-110"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"></rect><rect width="20" height="8" x="2" y="14" rx="2" ry="2"></rect><line x1="6" x2="6.01" y1="6" y2="6"></line><line x1="6" x2="6.01" y1="18" y2="18"></line></svg></div>
+                        <h3>Mantenimiento de Servidores</h3>
+                        <p>Garantizamos el rendimiento, disponibilidad y seguridad de tus equipos para asegurar la continuidad del negocio.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog h-7 w-7 transition-transform duration-300 group-hover:scale-110"><circle cx="18" cy="15" r="3"></circle><circle cx="9" cy="7" r="4"></circle><path d="M10 15H6a4 4 0 0 0-4 4v2"></path><path d="m21.7 16.4-.9-.3"></path><path d="m15.2 13.9-.9-.3"></path><path d="m16.6 18.7.3-.9"></path><path d="m19.1 12.2.3-.9"></path><path d="m19.6 18.7-.4-1"></path><path d="m16.8 12.3-.4-1"></path><path d="m14.3 16.6 1-.4"></path><path d="m20.7 13.8 1-.4"></path></svg></div>
+                        <h3>Administración de Sistemas</h3>
+                        <p>Administración y soporte integral sobre una amplia gama de equipos: Windows, Linux, Firewalls y Switches.</p>
+                    </div>
+                     <div class="service-card">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart h-7 w-7 transition-transform duration-300 group-hover:scale-110"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg></div>
+                        <h3>Venta de equipamiento</h3>
+                        <p>Proveemos una amplia gama de soluciones de hardware, incluyendo servidores, equipos de red, notebooks, computadoras y accesorios.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-us" class="about-us">
+            <div class="container about-us-content">
+                <div class="about-us-text">
+                    <h2>Sobre nosotros</h2>
+                    <p>Con más de 20 años de experiencia, Rossi Soluciones informáticas es tu socio estratégico en el mundo de la TI. Nuestro objetivo es acompañar a las empresas en cada etapa de su ciclo tecnológico, desde el diagnóstico e implementación de soluciones a medida, hasta la administración y el soporte continuo de la infraestructura. Nuestra misión es garantizar que tu infraestructura tecnológica funcione de manera eficiente, segura y escalable, permitiéndote enfocarte en el crecimiento de tu negocio. Nos definimos por la confianza, la transparencia y un compromiso inquebrantable con el éxito de cada uno de nuestros clientes.</p>
+                </div>
+                <div class="about-us-image">
+                    <img src="media/about-us-illustration.svg" alt="Ilustración del equipo de TI trabajando">
+                </div>
+            </div>
+        </section>
+
+        <section class="clients">
+            <div class="container">
+                <h3>Confían en Nosotros:</h3>
+                <div class="clients-logos">
+                    <img src="media/grossotractores.webp" alt="New Holland Logo">
+                    <img src="media/lario.webp" alt="Lario Logo">
+                    <img src="media/limansky.webp" alt="Limansky Logo">
+                    <img src="media/santarosa.webp" alt="Menara Logo">
+                    <img src="media/vitolen.webp" alt="Vitolen Logo">
+                </div>
+            </div>
+        </section>
+
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Contacto</h2>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin h-10 w-10 mb-4"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                        <h3>Dirección</h3>
+                        <p>A. Lincoln 465, Rafaela,<br>Santa Fe, Argentina</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="h-10 w-10 mb-4"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg></div>
+                        <h3>Teléfono</h3>
+                        <p><a href="tel:+5493492200571">(+54 9) 3492 200571</a></p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail h-10 w-10 mb-4"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg></div>
+                        <h3>Email</h3>
+                        <p><a href="mailto:info@rossiconsulting.com.ar">info@rossiconsulting.com.ar</a></p>
+                    </div>
+                </div>
+                <div class="relative w-full h-80 md:h-96 rounded-lg overflow-hidden shadow-lg" style="opacity: 1; transform: none;"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3410.3508152988306!2d-61.495631100000004!3d-31.266389999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95caafcb616fc659%3A0xd3924e475146413f!2sRossi%20Soluciones%20Inform%C3%A1ticas!5e0!3m2!1ses-419!2sar!4v1756321140896!5m2!1ses-419!2sar" width="100%" height="100%" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de Rossi Soluciones Informáticas"></iframe></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <a href="#" class="logo">ROSSI</a>
+            <p>&copy; 2025 Rossi Soluciones Informáticas. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
